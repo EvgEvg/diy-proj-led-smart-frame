@@ -145,6 +145,57 @@ private:
   bool horizontal_;
 };
 
+
+
+
+
+
+
+class OneScreenFullMirrorMapper : public PixelMapper {
+public:
+  OneScreenFullMirrorMapper() {}
+
+  virtual const char *GetName() const { return "OneScreenMirror"; }
+
+  virtual bool SetParameters(int chain, int parallel, const char *param) {
+    return true;
+  }
+
+  virtual bool GetSizeMapping(int matrix_width, int matrix_height,
+                              int *visible_width, int *visible_height)
+    const {
+    *visible_height = matrix_height;
+    *visible_width = matrix_width;
+    return true;
+  }
+
+  virtual void MapVisibleToMatrix(int matrix_width, int matrix_height,
+                                  int x, int y,
+                                  int *matrix_x, int *matrix_y) const {
+    if ((x < 64) && (y < 64)) {
+*matrix_x = 64 - 1 - x;
+      *matrix_y = matrix_height - 1 - y;
+    } else {
+      *matrix_x = x;
+      *matrix_y = y;
+    }
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // If we take a long chain of panels and arrange them in a U-shape, so
 // that after half the panels we bend around and continue below. This way
 // we have a panel that has double the height but only uses one chain.
@@ -296,6 +347,7 @@ static MapperByName *CreateMapperMap() {
   RegisterPixelMapperInternal(result, new UArrangementMapper());
   RegisterPixelMapperInternal(result, new VerticalMapper());
   RegisterPixelMapperInternal(result, new MirrorPixelMapper());
+RegisterPixelMapperInternal(result, new OneScreenFullMirrorMapper());
   return result;
 }
 

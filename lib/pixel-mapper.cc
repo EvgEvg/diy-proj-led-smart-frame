@@ -172,9 +172,25 @@ public:
   virtual void MapVisibleToMatrix(int matrix_width, int matrix_height,
                                   int x, int y,
                                   int *matrix_x, int *matrix_y) const {
-    if ((x < 64) && (y < 64)) {
-*matrix_x = 64 - 1 - x;
-      *matrix_y = matrix_height - 1 - y;
+
+
+
+if ((x < 128) && (x >= 64) && (y < 64)) {
+
+
+int modifierX = 0;
+
+      if (x > 96) {
+        modifierX = 128 - x;
+        *matrix_x = x - ((64 - (modifierX * 2))) - 1;
+      } else {
+        modifierX = x - 64;
+        *matrix_x = x + (64 - (modifierX * 2)) - 1;
+      }
+
+*matrix_y = matrix_height - 1 - y;
+
+
     } else {
       *matrix_x = x;
       *matrix_y = y;

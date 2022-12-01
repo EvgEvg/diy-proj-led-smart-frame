@@ -243,10 +243,10 @@ int main(int argc, char * argv[]) {
 
     // We accept multiple format lines
 
-    std::vector < std::string > format_lines;
-    Color color(255, 255, 0);
-    Color bg_color(0, 0, 0);
-    Color outline_color(0, 0, 0);
+    std::vector<std::string> format_lines;
+    rgb_matrix::Color color(255, 255, 0);
+    rgb_matrix::Color bg_color(0, 0, 0);
+    rgb_matrix::Color outline_color(0, 0, 0);
     bool with_outline = false;
 
     const char * bdf_font_file = NULL;
@@ -267,19 +267,16 @@ int main(int argc, char * argv[]) {
     while ((opt = getopt(argc, argv, "w:t:l:fr:c:P:LhCR:sO:V:D:x:y:f:d:")) != -1) {
         switch (opt) {
         case 'w':
-            img_param.wait_ms = roundf(atof(optarg) * 1000.0 f);
+            img_param.wait_ms = roundf(atof(optarg) * 1000.0f);
             break;
         case 't':
-            img_param.anim_duration_ms = roundf(atof(optarg) * 1000.0 f);
+            img_param.anim_duration_ms = roundf(atof(optarg) * 1000.0f);
             break;
         case 'l':
             img_param.loops = atoi(optarg);
             break;
         case 'D':
             img_param.anim_delay_ms = atoi(optarg);
-            break;
-        case 'f':
-            do_forever = true;
             break;
         case 'C':
             do_center = true;
@@ -464,13 +461,13 @@ int main(int argc, char * argv[]) {
         for (size_t i = 0; i < file_imgs.size() && !interrupt_received; ++i) {
 
 
-            const tmillis_t duration_ms = (file->is_multi_frame
-                                 ? file->params.anim_duration_ms
-                                 : file->params.wait_ms);
-            rgb_matrix::StreamReader reader(file -> content_stream);
-            int loops = file -> params.loops;
+            const tmillis_t duration_ms = (file_imgs[i]->is_multi_frame
+                                 ? file_imgs[i]->params.anim_duration_ms
+                                 : file_imgs[i]->params.wait_ms);
+            rgb_matrix::StreamReader reader(file_imgs[i] -> content_stream);
+            int loops = file_imgs[i] -> params.loops;
             const tmillis_t end_time_ms = GetTimeInMillis() + duration_ms;
-            const tmillis_t override_anim_delay = file -> params.anim_delay_ms;
+            const tmillis_t override_anim_delay = file_imgs[i] -> params.anim_delay_ms;
             for (int k = 0;
                 (loops < 0 || k < loops) &&
                 !interrupt_received &&

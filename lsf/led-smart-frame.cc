@@ -510,7 +510,7 @@ int main(int argc, char * argv[]) {
 
 
                     offscreen_canvas = matrix -> SwapOnVSync(offscreen_canvas,
-                        file -> params.vsync_multiple);
+                        file_imgs[i] -> params.vsync_multiple);
                     const tmillis_t time_already_spent = GetTimeInMillis() - start_wait_ms;
                     SleepMillis(anim_delay_ms - time_already_spent);
                 }

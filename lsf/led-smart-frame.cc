@@ -47,7 +47,7 @@ using rgb_matrix::RGBMatrix;
 using rgb_matrix::StreamReader;
 
 typedef int64_t tmillis_t;
-const tmillis_t distant_future = (1 LL << 40); // that is a while.
+static const tmillis_t distant_future = (1LL<<40); // that is a while.
 
 struct ImageParams {
     ImageParams(): anim_duration_ms(distant_future), wait_ms(1500),
@@ -168,25 +168,6 @@ static bool LoadImageAndScale(const char * filename,
     }
 
     return true;
-}
-
-void DisplayAnimation(const FileInfo * file,
-    RGBMatrix * matrix, FrameCanvas * offscreen_canvas) {
-    const tmillis_t duration_ms = (file -> is_multi_frame ?
-        file -> params.anim_duration_ms :
-        file -> params.wait_ms);
-
-}
-
-static bool parseColor(Color * c,
-    const char * str) {
-    return sscanf(str, "%hhu,%hhu,%hhu", & c -> r, & c -> g, & c -> b) == 3;
-}
-
-static bool FullSaturation(const Color & c) {
-    return (c.r == 0 || c.r == 255) &&
-        (c.g == 0 || c.g == 255) &&
-        (c.b == 0 || c.b == 255);
 }
 
 static int usage(const char * progname) {
@@ -361,7 +342,6 @@ int main(int argc, char * argv[]) {
     const bool fill_height = false;
 
     // In case the output to stream is requested, set up the stream object.
-    rgb_matrix::StreamIO * stream_io = NULL;
     rgb_matrix::StreamWriter * global_stream_writer = NULL;
 
     const tmillis_t start_load = GetTimeInMillis();

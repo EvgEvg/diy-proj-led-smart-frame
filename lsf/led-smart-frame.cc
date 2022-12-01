@@ -20,43 +20,25 @@
 // $ make led-image-viewer
 
 #include "led-matrix.h"
-
+#include "graphics.h"
 #include "pixel-mapper.h"
-
 #include "content-streamer.h"
-
 #include <fcntl.h>
-
 #include <math.h>
-
 #include <signal.h>
-
 #include <stdio.h>
-
 #include <stdlib.h>
-
 #include <string.h>
-
 #include <sys/stat.h>
-
 #include <sys/time.h>
-
 #include <sys/types.h>
-
 #include <unistd.h>
-
 #include <time.h>
-
 #include <algorithm>
-
 #include <map>
-
 #include <string>
-
 #include <vector>
-
 #include <Magick++.h>
-
 #include <magick/image.h>
 
 using rgb_matrix::Canvas;
@@ -65,7 +47,6 @@ using rgb_matrix::RGBMatrix;
 using rgb_matrix::StreamReader;
 
 typedef int64_t tmillis_t;
-static
 const tmillis_t distant_future = (1 LL << 40); // that is a while.
 
 struct ImageParams {
@@ -502,6 +483,10 @@ int main(int argc, char * argv[]) {
         }
         for (size_t i = 0; i < file_imgs.size() && !interrupt_received; ++i) {
 
+
+            const tmillis_t duration_ms = (file->is_multi_frame
+                                 ? file->params.anim_duration_ms
+                                 : file->params.wait_ms);
             rgb_matrix::StreamReader reader(file -> content_stream);
             int loops = file -> params.loops;
             const tmillis_t end_time_ms = GetTimeInMillis() + duration_ms;

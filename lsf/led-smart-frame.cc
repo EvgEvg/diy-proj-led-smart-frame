@@ -264,7 +264,7 @@ int main(int argc, char * argv[]) {
     const char * stream_output = NULL;
 
     int opt;
-    while ((opt = getopt(argc, argv, "w:t:l:fr:c:P:LhCR:sO:V:D:x:y:f:d:")) != -1) {
+    while ((opt = getopt(argc, argv, "w:t:l:r:c:P:LhCR:sO:V:D:x:y:f:d:")) != -1) {
         switch (opt) {
         case 'w':
             img_param.wait_ms = roundf(atof(optarg) * 1000.0f);
@@ -485,7 +485,7 @@ int main(int argc, char * argv[]) {
 
 
 
-
+                    next_time.tv_sec = time(NULL);
                     localtime_r(&next_time.tv_sec, &tm);
                     int line_offset = 0;
                     for (const std::string &line : format_lines) {

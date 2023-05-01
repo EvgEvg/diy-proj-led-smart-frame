@@ -476,15 +476,8 @@ int main(int argc, char * argv[]) {
                 uint32_t delay_us = 0;
                 while (!interrupt_received && GetTimeInMillis() <= end_time_ms &&
                     reader.GetNext(offscreen_canvas, & delay_us)) {
-                    const tmillis_t anim_delay_ms =
-                        override_anim_delay >= 0 ? override_anim_delay : delay_us / 1000;
-                    const tmillis_t start_wait_ms = GetTimeInMillis();
 
-
-
-
-
-
+                    // The clock
                     next_time.tv_sec = time(NULL);
                     localtime_r(&next_time.tv_sec, &tm);
                     int line_offset = 0;
@@ -503,12 +496,10 @@ int main(int argc, char * argv[]) {
                         line_offset += font.height() + line_spacing;
                     }
 
-
-
-
-
-
-
+                    // The GIF
+                    const tmillis_t anim_delay_ms =
+                        override_anim_delay >= 0 ? override_anim_delay : delay_us / 1000;
+                    const tmillis_t start_wait_ms = GetTimeInMillis();
                     offscreen_canvas = matrix -> SwapOnVSync(offscreen_canvas,
                         file_imgs[i] -> params.vsync_multiple);
                     const tmillis_t time_already_spent = GetTimeInMillis() - start_wait_ms;
@@ -527,6 +518,8 @@ int main(int argc, char * argv[]) {
     // Animation finished. Shut down the RGB matrix.
     matrix -> Clear();
     delete matrix;
+
+    // test
 
     // Leaking the FileInfos, but don't care at program end.
     return 0;

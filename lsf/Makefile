@@ -28,7 +28,7 @@ $(RGB_LIBRARY): FORCE
 	$(MAKE) -C $(RGB_LIBDIR)
 
 led-smart-frame: led-smart-frame.o $(RGB_LIBRARY)
-	$(CXX) $(CXXFLAGS) led-smart-frame.o -o $@ $(LDFLAGS) $(RGB_LDFLAGS)
+	$(CXX) $(CXXFLAGS) led-smart-frame.o -g -o $@ $(LDFLAGS) $(RGB_LDFLAGS) $(MAGICK_LDFLAGS)
 
 %.o : %.cc
 	$(CXX) -I$(RGB_INCDIR) $(CXXFLAGS) -c -o $@ $<
